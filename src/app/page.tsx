@@ -7,7 +7,6 @@ import Opening from "@/components/sections/Opening";
 import RsvpCta from "@/components/sections/RsvpCta";
 import Schedule from "@/components/sections/Schedule";
 import Travel from "@/components/sections/Travel";
-import WeddingParty from "@/components/sections/WeddingParty";
 
 export const metadata: Metadata = {
   title: "The Wilts",
@@ -28,7 +27,9 @@ export default function Home() {
       <Opening />
       <Essentials />
       <Schedule />
-      <WeddingParty />
+      {/* Wedding Party is temporarily hidden. The section is built and ready in
+          components/sections/WeddingParty.tsx; drop it back in here and restore
+          its footer anchor in constants.ts to bring it back. */}
       <Travel />
       <Faq />
       <RsvpCta />

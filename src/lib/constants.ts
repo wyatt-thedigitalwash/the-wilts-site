@@ -23,11 +23,14 @@ export const NAV = [
   { label: "RSVP", href: "/rsvp" },
 ] as const;
 
-/** Anchor links for the footer, one per section. */
+/**
+ * Anchor links for the footer, one per section currently on the page.
+ * Wedding Party is temporarily hidden, so its `#party` anchor is out too.
+ * Restore `{ label: "Wedding Party", href: "#party" }` when the section returns.
+ */
 export const SECTION_LINKS = [
   { label: "Details", href: "#details" },
   { label: "Schedule", href: "#schedule" },
-  { label: "Wedding Party", href: "#party" },
   { label: "Travel", href: "#travel" },
   { label: "Questions", href: "#faq" },
 ] as const;

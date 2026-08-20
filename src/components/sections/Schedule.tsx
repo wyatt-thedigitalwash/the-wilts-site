@@ -4,8 +4,13 @@ import Section from "@/components/Section";
 import { SCHEDULE } from "@/lib/constants";
 
 /**
- * Entries alternate image side on desktop so the eye moves down the page rather
- * than reading four identical rows.
+ * Entries alternate image side so the eye moves down the page rather than
+ * reading four identical rows.
+ *
+ * On phones the alternation is a bleed: the negative margin cancels the
+ * section's px-6 so each photo runs flush to one screen edge, left, right, left,
+ * right, with its text aligned to the same side. From sm up the photos come back
+ * inside the padding and the alternation becomes the two column layout instead.
  *
  * The photos keep their own 2:3 portrait ratio rather than being cropped to a
  * uniform landscape. They are capped at max-w-sm: at full column width a portrait
@@ -36,14 +41,16 @@ export default function Schedule() {
                 alt={event.image.alt}
                 width={event.image.width}
                 height={event.image.height}
-                sizes="(min-width: 640px) 384px, 100vw"
+                sizes="(min-width: 640px) 384px, 85vw"
                 quality={85}
-                className={`mx-auto h-auto w-full max-w-sm ${
-                  i % 2 === 1 ? "sm:order-2" : ""
+                className={`h-auto w-[85vw] max-w-none sm:mx-auto sm:w-full sm:max-w-sm ${
+                  i % 2 === 1
+                    ? "-mr-6 ml-auto sm:order-2"
+                    : "-ml-6"
                 }`}
               />
 
-              <div className={i % 2 === 1 ? "sm:order-1 sm:text-right" : ""}>
+              <div className={i % 2 === 1 ? "text-right sm:order-1" : ""}>
                 <p className="font-display text-4xl font-light sm:text-5xl">
                   {event.time}
                   <span className="ml-1 text-lg opacity-60 sm:text-xl">
