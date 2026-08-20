@@ -3,13 +3,28 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /*
+    Two surfaces, cream and a warm near-black. The home page is cream the whole
+    way down; only the RSVP call to action and the footer are dark, so the page
+    closes on a single deliberate change of surface. Accent is available for a
+    warm sand section but is not used yet.
+  */
+  --c-light: #f7f4ef;
+  --c-dark: #15120e;
+  --c-accent: #ebdcc8;
+  --c-foliage: #2f3a2c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+  --font-script: var(--font-script);
 }
 
 body {
@@ -19,20 +34,66 @@ body {
 }
 
 /*
+  Each surface carries its own ink and accent. A section declares its surface
+  with data-bg and inherits the right text color from it.
+*/
+[data-bg="light"] {
+  --ink: #1c2118;
+  --accent: #9a8556;
+  background-color: var(--c-light);
+}
+[data-bg="accent"] {
+  --ink: #3a2a1c;
+  --accent: #8c6a38;
+  background-color: var(--c-accent);
+}
+[data-bg="dark"] {
+  --ink: #ede8e0;
+  --accent: #d9b778;
+  background-color: var(--c-dark);
+}
+
+[data-bg] {
+  color: var(--ink);
+}
+
+/* The fixed header paints its own translucent surface, so it must not take the
+   flat background-color the rule above applies. */
+header[data-bg] {
+  background-color: transparent;
+}
+
+/* Full-bleed photo sections sit on a dark backdrop rather than their nominal
+   surface. Their type is white, so a cream background would render the wordmark
+   invisible in the moment before the photograph paints. */
+[data-photo] {
+  background-color: var(--c-dark);
+}
+
+/*
   Section spacing rule.
 
-  Every section carries a data-bg attribute describing its visual background
-  ("light", "dark", or "accent"). Sections define their own vertical padding.
-  When two consecutive sections share the same background, the second one drops
-  its top padding so the gap is not double stacked. When the backgrounds differ,
-  both sections keep full padding so the color transition has breathing room.
+  Sections define their own vertical padding. When two consecutive sections
+  share a surface, the second drops its top padding so the gap is not double
+  stacked. When the surfaces differ, both keep full padding so the transition
+  has breathing room.
 
   To force a matching section to keep its top padding, add data-keep-pt to it.
   For one-off tightening or loosening, put an explicit padding class on that
   individual section.
 */
 [data-bg="light"] + [data-bg="light"]:not([data-keep-pt]),
-[data-bg="dark"] + [data-bg="dark"]:not([data-keep-pt]),
-[data-bg="accent"] + [data-bg="accent"]:not([data-keep-pt]) {
+[data-bg="accent"] + [data-bg="accent"]:not([data-keep-pt]),
+[data-bg="dark"] + [data-bg="dark"]:not([data-keep-pt]) {
   padding-top: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
